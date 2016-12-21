@@ -10,6 +10,8 @@ The `requirements.txt` file in the root of the repository lists the required pip
 
 	pip install -r requirements.txt
 
-## Usage
+## Examples
 
-For now see the `examples` folder.
+See example of using the library in the `/examples` folder of the repo.
+
+To run the examples you will first need to complete the details in the `/examples/config.yml` file.

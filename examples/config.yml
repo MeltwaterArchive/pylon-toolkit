@@ -1,0 +1,4 @@
+service: SERVICE, e.g. linkedin
+username: YOUR_USERNAME
+apikey: YOUR_APIKEY
+recording_id: RECORDING_ID

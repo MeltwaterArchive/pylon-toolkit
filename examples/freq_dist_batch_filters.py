@@ -1,6 +1,9 @@
+import yaml, os, sys
 from pylon import Analysis
 
-pylon = Analysis("datascience", "334f5cd875d8a4d3722c39f7f773e30a", 'linkedin', 'cd99abbc812f646c77bfd8ddf767a134f0b91e84',
+config = yaml.load(open(os.path.join(os.path.dirname(__file__), 'config.yml'), 'r'))
+
+pylon = Analysis(config['username'], config['apikey'], config['service'], config['recording_id'],
     filter='li.user.member.country == "United States"')
 
 filters = {
