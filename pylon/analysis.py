@@ -11,7 +11,7 @@ class Analysis(object):
     def __init__(self, *args, **kwargs):
 
         class Config(object):
-            def __init__(self, username, apikey, service, recording_id, start=None, end=None, filter=None):
+            def __init__(self, username, apikey, service, recording_id, start=None, end=None, filter=None, client=None):
                 self.username = username
                 self.apikey = apikey
                 self.service = service
@@ -21,7 +21,12 @@ class Analysis(object):
                 self.filter = filter
 
         self.config = Config(*args, **kwargs)
-        self.client = datasift.Client(self.config.username, self.config.apikey, async=True, max_workers=5)
+
+        if 'client' in kwargs:
+            self.client = kwargs['client']
+        else:
+            self.client = datasift.Client(self.config.username, self.config.apikey, async=True, max_workers=5)
+
         self.queryfactory = QueryFactory(self.config, self.client, start=self.config.start, end=self.config.end, filter=self.config.filter)
         self.queries = []
 

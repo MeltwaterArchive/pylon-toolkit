@@ -58,7 +58,17 @@ class Utils:
         return result
 
     @staticmethod
-    def join_filters(operator, f1='', f2=''):
+    def join_filters(operator, f1=None, f2=None):
+
+        if f1 is None and f2 is None:
+            return None
+
+        if f1 is None:
+            f1 = ''
+
+        if f2 is None:
+            f2 = ''
+
         if len(f1) > 0 and len(f2) > 0:
             return '(' + f1 + ') ' + operator + ' (' + f2 + ')'
         elif len(f1) > 0:

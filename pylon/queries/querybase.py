@@ -25,26 +25,18 @@ class QueryBase(object):
             name = analysis['name']
             analysis.pop('name', None)
 
-            try:
-                promise=self.client.pylon.task.create(
-                        subscription_id=self.config.recording_id,
-                        parameters=analysis,
-                        service=self.config.service,
-                        name=name
-                    )
+            promise=self.client.pylon.task.create(
+                    subscription_id=self.config.recording_id,
+                    parameters=analysis,
+                    service=self.config.service,
+                    name=name
+                )
 
-                promise2index[promise]=i
-
-            except Exception as exc:
-                print(exc)
+            promise2index[promise]=i
 
         for result in as_completed(promise2index): # changes order!
-            try:
-                self.tasks[promise2index[result]]=result.process()['id']
-                logging.debug('Posted task id: ' + self.tasks[promise2index[result]])
-
-            except Exception as exc:
-                print(exc)
+            self.tasks[promise2index[result]]=result.process()['id']
+            logging.debug('Posted task id: ' + self.tasks[promise2index[result]])
 
     def is_pending(self,i):
         return i not in self.results or self.results[i]['status']!="completed"
@@ -58,21 +50,14 @@ class QueryBase(object):
             logging.debug('Checking state of analysis task: ' + self.tasks[i])
 
             if self.is_pending(i):
-                try:
-                    promise=self.client.pylon.task.get(self.tasks[i],service=self.config.service)
-                    promise2index[promise]=i
-                except Exception as exc:
-                    print(exc)
+                promise=self.client.pylon.task.get(self.tasks[i],service=self.config.service)
+                promise2index[promise]=i
 
         for result in as_completed(promise2index): # changes order!
-            try:
-                self.results[promise2index[result]]=result.process()
+            self.results[promise2index[result]]=result.process()
 
-                if self.results[promise2index[result]]['status'] == "completed":
-                    logging.info('Task completed: ' + self.tasks[i])
-
-            except Exception as exc:
-                print(exc)
+            if self.results[promise2index[result]]['status'] == "completed":
+                logging.info('Task completed: ' + self.tasks[i])
 
     def run(self):
         self.start()

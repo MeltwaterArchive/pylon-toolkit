@@ -88,3 +88,6 @@ dev/
 
 # Rope project settings
 .ropeproject
+
+# Coverage and testing
+cover/

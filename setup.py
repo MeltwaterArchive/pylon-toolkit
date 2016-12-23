@@ -23,5 +23,6 @@ setup(
         'datasift == 2.10.0',
         'PyYAML == 3.12'
     ],
-    tests_require=[]
+    tests_require=[
+    ]
 )
