@@ -20,7 +20,6 @@ setup(
     packages=['pylon'],
     install_requires=[
         'pandas == 0.19.1',
-        'datasift == 2.10.0',
         'PyYAML == 3.12'
     ],
     tests_require=[

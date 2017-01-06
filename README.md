@@ -10,6 +10,22 @@ The `setup.py` file in the root of the repository lists the required pip package
 
 	python setup.py develop
 
+## Usage
+
+To use the toolkit you must pass in a client which has the ability to call the PYLON API, and supports 'promises'.
+
+For example, using the DataSift client library (which calls the public API):
+
+	import datasift
+
+	client = datasift.Client('API_USERNAME', 'API_KEY', async=True)
+	pylon = Analysis(client, 'linkedin', 'RECORDING_ID')
+
+	task = pylon.freq_dist('Interaction types', 'li.type', filter='li.user.member.gender == "male"')
+	df = task.run()
+
+	print(df)
+
 ## Examples
 
 See example of using the library in the `/examples` folder of the repo.

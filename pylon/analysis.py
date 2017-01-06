@@ -3,29 +3,24 @@ import logging
 import time
 
 from pylon.queries.queryfactory import QueryFactory
+from pylon.queries.clientwrapper import ClientWrapper
 
 logging.basicConfig(format="%(asctime)-15s -- %(message)s", level=logging.INFO)
 
 class Analysis(object):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, client, service, recording_id, start=None, end=None, filter=None):
 
         class Config(object):
-            def __init__(self, username, apikey, service, recording_id, start=None, end=None, filter=None, client=None):
-                self.username = username
-                self.apikey = apikey
+            def __init__(self, service, recording_id, start=None, end=None, filter=None):
                 self.service = service
                 self.recording_id = recording_id
                 self.start = start
                 self.end = end
                 self.filter = filter
 
-        self.config = Config(*args, **kwargs)
-
-        if 'client' in kwargs:
-            self.client = kwargs['client']
-        else:
-            self.client = datasift.Client(self.config.username, self.config.apikey, async=True, max_workers=5)
+        self.config = Config(service, recording_id, start, end, filter)
+        self.client = ClientWrapper(client)
 
         self.queryfactory = QueryFactory(self.config, self.client, start=self.config.start, end=self.config.end, filter=self.config.filter)
         self.queries = []

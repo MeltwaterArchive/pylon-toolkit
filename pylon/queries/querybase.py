@@ -25,7 +25,7 @@ class QueryBase(object):
             name = analysis['name']
             analysis.pop('name', None)
 
-            promise=self.client.pylon.task.create(
+            promise=self.client.create_task(
                     subscription_id=self.config.recording_id,
                     parameters=analysis,
                     service=self.config.service,
@@ -50,7 +50,7 @@ class QueryBase(object):
             logging.debug('Checking state of analysis task: ' + self.tasks[i])
 
             if self.is_pending(i):
-                promise=self.client.pylon.task.get(self.tasks[i],service=self.config.service)
+                promise=self.client.get_task(self.tasks[i],service=self.config.service)
                 promise2index[promise]=i
 
         for result in as_completed(promise2index): # changes order!
