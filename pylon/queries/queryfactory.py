@@ -2,8 +2,8 @@ from pylon.utils import Utils
 from pylon.queries.query import Query
 from pylon.queries.querybatch import QueryBatch
 
-class QueryFactory(object):
 
+class QueryFactory(object):
     def __init__(self, config, client, start=None, end=None, filter=None):
         self.config = config
         self.client = client
@@ -13,26 +13,25 @@ class QueryFactory(object):
 
     def complete_params(self, analysis, start=None, end=None, filter=None):
 
-        if(not start is None):
+        if start is not None:
             analysis['start'] = start
-        elif(not self.start is None):
+        elif self.start is not None:
             analysis['start'] = self.start
 
-        if(not end is None):
+        if end is not None:
             analysis['end'] = end
-        elif(not self.end is None):
+        elif self.end is not None:
             analysis['end'] = self.end
 
-        if (not self.filter is None):
-            if(filter is None):
+        if self.filter is not None:
+            if filter is None:
                 analysis['filter'] = self.filter
             else:
                 analysis['filter'] = Utils.join_filters('AND', self.filter, filter)
-        elif(not filter is None):
+        elif filter is not None:
             analysis['filter'] = filter
 
     def params_freq_dist(self, name, target, threshold, filter=None, start=None, end=None):
-
         analysis = {
             "name": name,
             "parameters": {
@@ -52,7 +51,6 @@ class QueryFactory(object):
         return Query(self.config, self.client, analysis)
 
     def params_time_series(self, name, interval, span=1, filter=None, start=None, end=None):
-
         analysis = {
             "name": name,
             "parameters": {
@@ -71,8 +69,8 @@ class QueryFactory(object):
         analysis = self.params_time_series(name, interval, span, filter=filter, start=start, end=end)
         return Query(self.config, self.client, analysis)
 
-    def params_nested_freq_dist(self, name, level1, threshold1, level2, threshold2, level3=None, threshold3=None, filter=None, start=None, end=None):
-
+    def params_nested_freq_dist(self, name, level1, threshold1, level2, threshold2, level3=None, threshold3=None,
+                                filter=None, start=None, end=None):
         analysis = {
             "name": name,
             "parameters": {
@@ -91,8 +89,8 @@ class QueryFactory(object):
             }
         }
 
-        if(not level3 is None):
-            if(threshold3 is None):
+        if level3 is not None:
+            if threshold3 is None:
                 raise ArgumentException('threshold3 argument cannot be None when level3 is specified')
             else:
                 analysis['parameters']['child']['child'] = {
@@ -106,12 +104,13 @@ class QueryFactory(object):
         self.complete_params(analysis, start=start, end=end, filter=filter)
         return analysis
 
-    def nested_freq_dist(self, name, level1, threshold1, level2, threshold2, level3=None, threshold3=None, filter=None, start=None, end=None):
-        analysis = self.params_nested_freq_dist(name, level1, threshold1, level2, threshold2, level3=level3, threshold3=threshold3, filter=filter, start=start, end=end)
+    def nested_freq_dist(self, name, level1, threshold1, level2, threshold2, level3=None, threshold3=None, filter=None,
+                         start=None, end=None):
+        analysis = self.params_nested_freq_dist(name, level1, threshold1, level2, threshold2, level3=level3,
+                                                threshold3=threshold3, filter=filter, start=start, end=end)
         return Query(self.config, self.client, analysis)
 
     def freq_dist_batch_filters(self, target, threshold, filters, start=None, end=None):
-
         analyses = []
 
         for n, f in filters.items():

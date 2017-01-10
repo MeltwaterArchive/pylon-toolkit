@@ -1,12 +1,12 @@
 from pylon.queries.querybase import QueryBase
 from pylon.utils import Utils
 
-class Query(QueryBase):
 
+class Query(QueryBase):
     def __init__(self, config, client, analysis):
         super().__init__(config, client)
-        self.analyses=[analysis]
+        self.analyses = [analysis]
 
-    def df(self,level=-1):
-        if 0 in self.results and self.results[0]['status']=='completed':
+    def df(self, level=-1):
+        if 0 in self.results and self.results[0]['status'] == 'completed':
             return Utils.pylon_response_to_dataframes(self.results[0])[level]

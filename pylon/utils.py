@@ -5,29 +5,29 @@ from time import sleep
 from datetime import datetime
 import pytz
 
-class Utils:
 
+class Utils:
     @staticmethod
     def flatten_pylon_response(j):
-        bucketkeys=['key','unique_authors','interactions']
-        nestingkey='key' # the name of the key that needs to reflect the nesting
+        bucketkeys = ['key', 'unique_authors', 'interactions']
+        nestingkey = 'key'  # the name of the key that needs to reflect the nesting
 
         if 'results' in j:
-            retval=list()
+            retval = list()
             for result in j['results']:
                 if 'child' in result:
-                    child=Utils.flatten_pylon_response(result['child'])
+                    child = Utils.flatten_pylon_response(result['child'])
                     if child:
                         # prepend current value of the nestingkey to that of the child
-                        retval+=[{k:(result[nestingkey],)+v if k==nestingkey else v
-                                  for k,v in bucket.items()}
-                                 for bucket in child]
+                        retval += [{k: (result[nestingkey],) + v if k == nestingkey else v
+                                    for k, v in bucket.items()}
+                                   for bucket in child]
                 # tuple-ise the value when the key is the nesting key so we can append to it
-                retval.append({k:(v,) if k==nestingkey else v for k,v in result.items() if k in bucketkeys})
+                retval.append({k: (v,) if k == nestingkey else v for k, v in result.items() if k in bucketkeys})
             return retval
 
     @staticmethod
-    def extract_targets(j,result):
+    def extract_targets(j, result):
         if 'target' in j['parameters']:
             result.append(j['parameters']['target'])
         elif 'interval' in j['parameters']:
@@ -35,25 +35,25 @@ class Utils:
         else:
             raise "No target or interval"
         if 'child' in j:
-            Utils.extract_targets(j['child'],result)
+            Utils.extract_targets(j['child'], result)
 
     @staticmethod
-    def cast_(key,names):
-        return tuple([datetime.fromtimestamp(i,tz=pytz.UTC) if names[e]=='datetime' else i
-                    for e,i in enumerate(key)])
+    def cast_(key, names):
+        return tuple([datetime.fromtimestamp(i, tz=pytz.UTC) if names[e] == 'datetime' else i
+                      for e, i in enumerate(key)])
 
     @staticmethod
     def pylon_response_to_dataframes(response):
-        groups=defaultdict(list)
+        groups = defaultdict(list)
         for i in Utils.flatten_pylon_response(response['result']['analysis']):
             groups[len(i['key'])].append(i)
-        result=list()
-        targets=list()
-        Utils.extract_targets(response['parameters']['parameters'],targets)
+        result = list()
+        targets = list()
+        Utils.extract_targets(response['parameters']['parameters'], targets)
         for g in sorted(groups):
-            names=targets[:g]
-            index=pd.MultiIndex.from_tuples([Utils.cast_(i['key'],names) for i in groups[g]],names=names)
-            result.append(pd.DataFrame([{k:v for k,v in i.items() if k!='key'} for i in groups[g]],
+            names = targets[:g]
+            index = pd.MultiIndex.from_tuples([Utils.cast_(i['key'], names) for i in groups[g]], names=names)
+            result.append(pd.DataFrame([{k: v for k, v in i.items() if k != 'key'} for i in groups[g]],
                                        index=index))
         return result
 
