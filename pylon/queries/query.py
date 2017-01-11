@@ -1,5 +1,6 @@
 from pylon.queries.querybase import QueryBase
 from pylon.utils import Utils
+from pylon.exceptions import RedactedResults
 
 
 class Query(QueryBase):
@@ -13,5 +14,3 @@ class Query(QueryBase):
                 raise RedactedResults
             return Utils.pylon_response_to_dataframes(self.results[0])[level]
 
-class RedactedResults(Exception):
-    pass

@@ -1,0 +1,2 @@
+class RedactedResults(Exception):
+    pass
