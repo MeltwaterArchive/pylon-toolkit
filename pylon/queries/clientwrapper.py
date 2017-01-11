@@ -1,10 +1,9 @@
 class ClientWrapper(object):
-
     def __init__(self, client):
         self.client = client
 
         # Setup aliases
-        if (self.client_type(client) == 'datasift.client.Client'):
+        if self.client_type(client) == 'datasift.client.Client':
             self.aliases_ds_client()
 
     def client_type(self, o):
