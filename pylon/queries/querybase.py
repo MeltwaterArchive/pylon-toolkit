@@ -82,4 +82,4 @@ class QueryBase(object):
     def run(self):
         self.start()
         self.wait()
-        return self.df()
+        return self.result()

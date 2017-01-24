@@ -5,7 +5,6 @@ from time import sleep
 from datetime import datetime
 import pytz
 
-
 class Utils:
     @staticmethod
     def flatten_pylon_response(j):

@@ -7,6 +7,9 @@ client = datasift.Client(config['username'], config['apikey'], async=True)
 pylon = Analysis(client, config['service'], config['recording_id'], filter='li.user.member.country == "United States"')
 
 task = pylon.freq_dist('Interaction types', 'li.type', filter='li.user.member.gender == "male"')
-df = task.run()
 
-print(df)
+result = task.run()
+
+print(result.unique_authors)
+print(result.interactions)
+print(result.result)

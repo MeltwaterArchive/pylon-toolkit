@@ -13,5 +13,5 @@ task1.start()
 task2.start()
 pylon.waitAll()
 
-print(task1.df())
-print(task2.df())
+print(task1.result().result)
+print(task2.result().result)

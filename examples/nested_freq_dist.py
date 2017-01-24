@@ -7,7 +7,9 @@ client = datasift.Client(config['username'], config['apikey'], async=True)
 pylon = Analysis(client, config['service'], config['recording_id'])
 
 two_level = pylon.nested_freq_dist('Nested example', 'li.user.member.gender', 2, 'li.user.member.age', 5)
-print(two_level.run())
+two_level_result = two_level.run()
+print(two_level_result.result)
 
 three_level = pylon.nested_freq_dist('Nested example', 'li.user.member.country', 2, 'li.user.member.gender', 2, level3='li.user.member.age', threshold3=5)
-print(three_level.run())
+three_level_result = three_level.run()
+print(three_level_result.result)

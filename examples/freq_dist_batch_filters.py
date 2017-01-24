@@ -12,6 +12,8 @@ filters = {
 }
 
 batch = pylon.freq_dist_batch_filters('li.user.member.age', 10, filters=filters)
-df = batch.run()
+result = batch.run()
 
-print(df)
+print(result.unique_authors)
+print(result.interactions)
+print(result.result)

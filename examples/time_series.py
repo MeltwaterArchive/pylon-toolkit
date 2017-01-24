@@ -7,6 +7,8 @@ client = datasift.Client(config['username'], config['apikey'], async=True)
 pylon = Analysis(client, config['service'], config['recording_id'])
 
 task = pylon.time_series('ts', 'day')
-df = task.run()
+result = task.run()
 
-print(df)
+print(result.unique_authors)
+print(result.interactions)
+print(result.result)
