@@ -1,11 +1,11 @@
 # encoding: utf-8
 
-from setuptools import setup
 import os.path
+import setuptools
 
-setup(
+setuptools.setup(
     name="pylon-toolkit",
-    version="0.1.0",
+    version="0.1.1",
     author="DataSift",
     author_email="developers@datasift.com",
     maintainer="DataSift",
@@ -17,7 +17,7 @@ setup(
         "All Rights Reserved. "
     ),
     url="https://github.com/datasift/pylon-toolkit",
-    packages=['pylon'],
+    packages=setuptools.find_packages(exclude=['tests', 'tests.*', 'examples', 'examples.*']),
     install_requires=[
         'pandas == 0.19.1',
         'PyYAML == 3.12'
