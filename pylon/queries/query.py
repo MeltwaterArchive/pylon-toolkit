@@ -13,6 +13,6 @@ class Query(QueryBase):
             if self.results[0]['result']['analysis']['redacted']:
                 raise RedactedResults
 
-            return QueryResult(Utils.pylon_response_to_dataframes(self.results[0]),
+            return QueryResult(Utils.pylon_response_to_dataframes(self.results[0])[0],
                 self.results[0]['result']['unique_authors'], self.results[0]['result']['interactions'])
 
