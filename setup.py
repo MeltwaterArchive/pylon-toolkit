@@ -19,7 +19,7 @@ setup(
     url="https://github.com/datasift/pylon-toolkit",
     packages=['pylon', 'pylon.queries'],
     install_requires=[
-        'pandas == 0.19.1',
+        'pandas == 0.19.2',
         'PyYAML == 3.12'
     ],
     tests_require=[
