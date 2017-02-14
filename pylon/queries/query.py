@@ -10,7 +10,8 @@ class Query(QueryBase):
 
     def result(self):
         if 0 in self.results and self.results[0]['status'] == 'completed':
-            if self.results[0]['result']['analysis']['redacted']:
+
+            if self.results[0]['result']['analysis']['redacted'] or len(self.results[0]['result']['analysis']['results']) == 0:
                 raise RedactedResults
 
             return QueryResult(Utils.pylon_response_to_dataframes(self.results[0])[0],
