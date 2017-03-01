@@ -28,7 +28,7 @@ class Analysis(object):
         self.queries = []
 
     def waitAll(self):
-        logging.info('Waiting completion of all queries.')
+        logging.debug('Waiting completion of all queries.')
 
         pending = len([i for query in self.queries for i in query.pending()])
 

@@ -18,7 +18,7 @@ class QueryBase(object):
         promise2index = dict()
 
         for i, analysis in enumerate(self.analyses):
-            logging.info('Posting new analysis task: \n' + json.dumps(analysis))
+            logging.debug('Posting new analysis task: \n' + json.dumps(analysis))
 
             name = analysis['name']
             analysis.pop('name', None)
@@ -53,7 +53,7 @@ class QueryBase(object):
             self.results[promise2index[result]] = result.process()
 
             if self.results[promise2index[result]]['status'] == "completed":
-                logging.info('Task completed: ' + self.tasks[i])
+                logging.debug('Task completed: ' + self.tasks[i])
 
     def status(self):
         retval = dict()
