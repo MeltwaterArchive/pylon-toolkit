@@ -14,7 +14,9 @@ class ClientWrapper(object):
     def aliases_ds_client(self):
         self.create_task = self.client.pylon.task.create
         self.get_task = self.client.pylon.task.get
+        self.get_resource = self.client.pylon.resource.get
 
     def aliases_default(self):
         self.create_task = self.client.create_task
         self.get_task = self.client.get_task
+        self.get_resource = self.client.get_resource

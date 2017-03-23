@@ -48,7 +48,12 @@ class Utils:
             groups[len(i['key'])].append(i)
         result = list()
         targets = list()
-        Utils.extract_targets(response['parameters']['parameters'], targets)
+
+        if 'analysis' in response['parameters']:
+            Utils.extract_targets(response['parameters']['analysis'], targets)
+        else:
+            Utils.extract_targets(response['parameters']['parameters'], targets)
+
         for g in sorted(groups):
             names = targets[:g]
             index = pd.MultiIndex.from_tuples([Utils.cast_(i['key'], names) for i in groups[g]], names=names)
