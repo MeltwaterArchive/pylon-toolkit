@@ -9,7 +9,11 @@ class QueryFactory(object):
         self.client = client
         self.start = start
         self.end = end
-        self.filter = filter
+
+        if not filter is None and len(filter.strip()) > 0:
+            self.filter = filter
+        else:
+            self.filter = None
 
     def complete_params(self, analysis, start=None, end=None, filter=None):
 
@@ -28,7 +32,7 @@ class QueryFactory(object):
                 analysis['filter'] = self.filter
             else:
                 analysis['filter'] = Utils.join_filters('AND', self.filter, filter)
-        elif filter is not None:
+        elif filter is not None and len(filter.strip()) > 0:
             analysis['filter'] = filter
 
     def params_freq_dist(self, name, target, threshold, filter=None, start=None, end=None):

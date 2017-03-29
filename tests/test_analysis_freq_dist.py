@@ -6,7 +6,7 @@ from tests.mockclient import MockClient
 class TestAnalysisFreqDist(TestCase):
 
     def setup(self):
-        self.pylon =Analysis(MockClient(), 'test', '', 'linkedin', 'recording_id')
+        self.pylon =Analysis(MockClient(), 'linkedin', 'recording_id')
         self.task_name = 'Interaction types'
         self.target = 'li.type'
         self.threshold = 10
