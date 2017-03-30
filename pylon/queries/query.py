@@ -1,3 +1,8 @@
+from __future__ import absolute_import, division, print_function
+from builtins import (bytes, str, open, super, range,
+                      zip, round, input, int, pow, object)
+##Above lines for compatibility with python27
+
 from pylon.queries.querybase import QueryBase
 from pylon.queries.queryresult import QueryResult
 from pylon.utils import Utils
