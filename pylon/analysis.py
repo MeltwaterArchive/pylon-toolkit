@@ -1,8 +1,8 @@
 import logging
 import time
 
-from pylon.queries.queryfactory import QueryFactory
 from pylon.queries.clientwrapper import ClientWrapper
+from pylon.queries.queryfactory import QueryFactory
 
 logging.basicConfig(format="%(asctime)-15s -- %(message)s", level=logging.INFO)
 
@@ -23,23 +23,22 @@ class Analysis(object):
         self.queryfactory = QueryFactory(self.config, self.client, start=self.config.start, end=self.config.end,
                                          filter=self.config.filter)
         self.queries = []
+        self.delay = 1
 
     def clear(self):
         self.queries = []
 
+    def _unfinished(self):
+        return [i for query in self.queries for i in query.unfinished()]
+
     def waitAll(self):
         logging.debug('Waiting completion of all queries.')
 
-        pending = len([i for query in self.queries for i in query.pending()])
-
-        while pending > 0:
-            t = min(max(pending / 2, 1), 60)  # at least 1, at most 60, otherwise #running/2
-            time.sleep(t)
+        while len(self._unfinished()) > 0:
+            time.sleep(self.delay)
 
             for i in self.queries:
                 i.get()
-
-            pending = len([i for query in self.queries for i in query.pending()])
 
     ############################### Individual analysis queries ###########################################
 

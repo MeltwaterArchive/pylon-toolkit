@@ -91,3 +91,5 @@ dev/
 
 # Coverage and testing
 cover/
+
+.idea/

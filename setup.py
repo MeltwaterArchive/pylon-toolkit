@@ -5,7 +5,7 @@ import os.path
 
 setup(
     name="pylon-toolkit",
-    version="0.1.0",
+    version="0.2.0",
     author="DataSift",
     author_email="developers@datasift.com",
     maintainer="DataSift",
