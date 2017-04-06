@@ -1,9 +1,9 @@
-import pandas as pd
 from collections import defaultdict
-from concurrent.futures import as_completed
-from time import sleep
 from datetime import datetime
+
+import pandas as pd
 import pytz
+
 
 class Utils:
     @staticmethod
@@ -32,7 +32,7 @@ class Utils:
         elif 'interval' in j['parameters']:
             result.append('datetime')
         else:
-            raise "No target or interval"
+            raise Exception("No target or interval")
         if 'child' in j:
             Utils.extract_targets(j['child'], result)
 

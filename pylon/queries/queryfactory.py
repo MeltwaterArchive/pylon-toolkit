@@ -1,6 +1,6 @@
-from pylon.utils import Utils
 from pylon.queries.query import Query
 from pylon.queries.querybatch import QueryBatch
+from pylon.utils import Utils
 
 
 class QueryFactory(object):
@@ -95,7 +95,7 @@ class QueryFactory(object):
 
         if level3 is not None:
             if threshold3 is None:
-                raise ArgumentException('threshold3 argument cannot be None when level3 is specified')
+                raise ValueError('threshold3 argument cannot be None when level3 is specified')
             else:
                 analysis['parameters']['child']['child'] = {
                     "analysis_type": "freqDist",
