@@ -74,7 +74,10 @@ class QueryBase(object):
         unfinished = len(self.unfinished())
 
         while unfinished > 0:
-            t = min(max(unfinished / 2, 1), 60)  # at least 1, at most 60, otherwise #running/2
+            t = min(
+                max(unfinished * self.config.sleep_interval, self.config.sleep_interval),
+                self.config.max_sleep_interval
+            )
             time.sleep(t)
             self.get()
             unfinished = len(self.unfinished())
