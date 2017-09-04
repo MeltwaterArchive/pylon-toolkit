@@ -17,7 +17,7 @@ setup(
         "All Rights Reserved. "
     ),
     url="https://github.com/datasift/pylon-toolkit",
-    packages=['pylon', 'pylon.queries'],
+    packages=['pylon'],
     install_requires=[
         'pandas == 0.19.2',
         'PyYAML == 3.12'
