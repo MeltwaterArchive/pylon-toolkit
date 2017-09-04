@@ -2,8 +2,8 @@ import logging
 
 from datasift.exceptions import DataSiftApiException
 from pylon.exceptions import ResourceNotFound
-from pylon.queries.clientwrapper import ClientWrapper
-from pylon.queries.queryresult import QueryResult
+from pylon.clientwrapper import ClientWrapper
+from pylon.pylonanalysis.analysisresult import AnalysisResult
 from pylon.utils import Utils
 
 
@@ -20,7 +20,7 @@ class Resources(object):
         try:
             resource = self.client.get_resource(slug, service=self.service, period=period, country=country).process()
 
-            return QueryResult(Utils.pylon_response_to_dataframes(resource)[0],
+            return AnalysisResult(Utils.pylon_response_to_dataframes(resource)[0],
                                resource['result']['unique_authors'], resource['result']['interactions'])
 
         except DataSiftApiException as e:

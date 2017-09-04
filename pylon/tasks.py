@@ -4,7 +4,7 @@ import time
 from concurrent.futures import as_completed
 
 
-class QueryBase(object):
+class Tasks(object):
     def __init__(self, config, client):
         self.analyses = None  # must be initialised to a list in derived classes
         self.config = config
@@ -26,7 +26,8 @@ class QueryBase(object):
                 subscription_id=self.config.recording_id,
                 parameters=analysis,
                 service=self.config.service,
-                name=name
+                name=name,
+                type=self.config.task_type
             )
 
             promise2index[promise] = i
@@ -48,7 +49,7 @@ class QueryBase(object):
             logging.debug('Checking state of analysis task: ' + self.tasks[i])
 
             if self.is_unfinished(i):
-                promise = self.client.get_task(self.tasks[i], service=self.config.service)
+                promise = self.client.get_task(self.tasks[i], service=self.config.service, type=self.config.task_type)
                 promise2index[promise] = i
 
         for result in as_completed(promise2index):  # changes order!
