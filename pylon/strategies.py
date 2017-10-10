@@ -70,3 +70,12 @@ class Strategies(object):
         self.tasks.append(task)
         return task
 
+    def audience_breakdown(self, name, params, version=1):
+        task = self.factory.strategy_task('audience_breakdown', version, name, params)
+        self.tasks.append(task)
+        return task
+
+    def top_terms(self, name, params, version=1):
+        task = self.factory.strategy_task('top_terms', version, name, params)
+        self.tasks.append(task)
+        return task

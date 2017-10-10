@@ -1,5 +1,4 @@
 from pylon.mediastrategies.strategytask import StrategyTask
-from pylon.mediastrategies.groupedstrategytask import GroupedStrategyTask
 
 class StrategyFactory(object):
 
@@ -7,7 +6,7 @@ class StrategyFactory(object):
         self.config = config
         self.client = client
 
-    def strategy_task(self, strategy, version, name, params, result_key, index_key):
+    def strategy_task(self, strategy, version, name, params, result_key=None, index_key=None):
 
         task_params = {
             "name": name,
@@ -17,7 +16,4 @@ class StrategyFactory(object):
             "parameters": params
         }
 
-        if 'groups' in params:
-            return GroupedStrategyTask(self.config, self.client, task_params, result_key, index_key)
-        else:
-            return StrategyTask(self.config, self.client, task_params, result_key, index_key)
+        return StrategyTask(self.config, self.client, task_params, result_key, index_key)

@@ -1,5 +1,4 @@
 import yaml, os, datasift
-from pylon.exceptions import RedactedResults
 from pylon import Strategies
 
 config = yaml.load(open(os.path.join(os.path.dirname(__file__), 'config.yml'), 'r'))
@@ -18,11 +17,14 @@ params = {
 task = strategies.top_domains('test', params)
 result = task.run()
 
-# result.result is a Pandas dataframe
-print(result.result)
+# Always check to see if the result is redacted
+if not result.redacted:
 
-# Write to CSV file
-result.write_as_csv(os.getcwd() + '/output.csv')
+    # result.result is a Pandas dataframe
+    print(result.result)
+
+    # Write to CSV file
+    result.write_as_csv(os.getcwd() + '/../output.csv')
 
 
 # Example of handling redacted results
@@ -33,9 +35,11 @@ redact_params = {
     "comparison_audience": "global"
 }
 
-try:
-    task = strategies.top_urls('test', redact_params)
-    result = task.run()
-except RedactedResults as e:
+task = strategies.top_urls('test', redact_params)
+result = task.run()
+
+if result.redacted:
     print('Result was redacted')
+else:
+    print('Result was not redacted')
 
