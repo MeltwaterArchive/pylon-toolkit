@@ -63,7 +63,14 @@ class ResultParser(object):
                 dimension_key = ResultParser.dimension_to_key_name(dimension)
 
                 if not dimension_key is None:
-                    results[dimension] = ResultParser.parse_result_group(dimension_result, 'segments', dimension_key)
+                    res = ResultParser.parse_result_group(dimension_result, 'segments', dimension_key)
+
+                    if not res.result is None:
+                        res.result = res.result.reset_index()
+                        res.result = res.result.rename(columns={dimension_key: 'segment'})
+                        res.result = res.result.set_index('segment')
+
+                    results[dimension] = res
 
             return AudienceBreakdownResult(False, results)
 

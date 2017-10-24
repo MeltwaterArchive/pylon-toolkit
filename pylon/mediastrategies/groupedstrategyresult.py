@@ -24,7 +24,7 @@ class GroupedStrategyResult(object):
                     dfs.append(group_result.result)
 
         if len(keys) > 0:
-            return pd.concat(dfs, keys=keys)
+            return pd.concat(dfs, keys=keys, names=['group'] + dfs[0].index.names)
         else:
             return None
 

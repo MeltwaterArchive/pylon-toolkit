@@ -23,7 +23,7 @@ class AudienceBreakdownResult(StrategyResult):
                     keys.append(dimension)
 
             if len(keys) > 0:
-                return pd.concat(dfs, keys=keys)
+                return pd.concat(dfs, keys=keys, names=['dimension', 'segment'])
             else:
                 return None
 
