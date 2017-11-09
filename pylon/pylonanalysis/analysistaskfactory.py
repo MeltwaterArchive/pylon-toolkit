@@ -1,9 +1,9 @@
-from pylon.queries.query import Query
-from pylon.queries.querybatch import QueryBatch
+from pylon.pylonanalysis.analysistask import AnalysisTask
+from pylon.pylonanalysis.analysisbatch import AnalysisBatch
 from pylon.utils import Utils
 
 
-class QueryFactory(object):
+class AnalysisTaskFactory(object):
     def __init__(self, config, client, start=None, end=None, filter=None):
         self.config = config
         self.client = client
@@ -52,7 +52,7 @@ class QueryFactory(object):
 
     def freq_dist(self, name, target, threshold=200, filter=None, start=None, end=None):
         analysis = self.params_freq_dist(name, target, threshold, start=start, end=end, filter=filter)
-        return Query(self.config, self.client, analysis)
+        return AnalysisTask(self.config, self.client, analysis)
 
     def params_time_series(self, name, interval, span=1, filter=None, start=None, end=None):
         analysis = {
@@ -71,7 +71,7 @@ class QueryFactory(object):
 
     def time_series(self, name, interval, span=1, filter=None, start=None, end=None):
         analysis = self.params_time_series(name, interval, span, filter=filter, start=start, end=end)
-        return Query(self.config, self.client, analysis)
+        return AnalysisTask(self.config, self.client, analysis)
 
     def params_nested_freq_dist(self, name, level1, threshold1, level2, threshold2, level3=None, threshold3=None,
                                 filter=None, start=None, end=None):
@@ -112,7 +112,7 @@ class QueryFactory(object):
                          start=None, end=None):
         analysis = self.params_nested_freq_dist(name, level1, threshold1, level2, threshold2, level3=level3,
                                                 threshold3=threshold3, filter=filter, start=start, end=end)
-        return Query(self.config, self.client, analysis)
+        return AnalysisTask(self.config, self.client, analysis)
 
     def freq_dist_batch_filters(self, target, threshold, filters, start=None, end=None):
         analyses = []
@@ -120,4 +120,4 @@ class QueryFactory(object):
         for n, f in filters.items():
             analyses.append(self.params_freq_dist(n, target, threshold, start=start, end=end, filter=f))
 
-        return QueryBatch(self.config, self.client, analyses)
+        return AnalysisBatch(self.config, self.client, analyses)

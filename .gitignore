@@ -93,3 +93,5 @@ dev/
 cover/
 
 .idea/
+notes.txt
+output.csv

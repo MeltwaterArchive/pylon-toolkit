@@ -1,11 +1,11 @@
 import pandas as pd
-from pylon.queries.querybase import QueryBase
-from pylon.queries.queryresult import QueryResult
+from pylon.tasks import Tasks
+from pylon.pylonanalysis.analysisresult import AnalysisResult
 from pylon.utils import Utils
 
 
-class QueryBatch(QueryBase):
-    def __init__(self, config, client, analyses, filter=None, start=None, end=None):
+class AnalysisBatch(Tasks):
+    def __init__(self, config, client, analyses):
         super().__init__(config, client)
         self.analyses = analyses
 
@@ -32,5 +32,5 @@ class QueryBatch(QueryBase):
 
             index_names += dfs[0].index.names
 
-            return QueryResult(pd.concat(dfs, keys=keys, names=index_names),
+            return AnalysisResult(pd.concat(dfs, keys=keys, names=index_names),
                                unique_authors, interactions)
