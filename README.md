@@ -6,43 +6,41 @@ PYLON analysis utilities, written in Python.
 
 This library has been tested using **Python 3.5.2**.
 
-The `setup.py` file in the root of the repository lists the required pip packages required. You can install all required packages by running:
+Additional required libraries:
 
-	python setup.py develop
+* [DataSift Python client library](https://github.com/datasift/datasift-python)
+
+		pip install datasift
+
+* Recent version of pyOpenSSL
+
+		pip install pyOpenSSL==16.2.0
 
 ## Usage
 
-To use the toolkit you must pass in a client which has the ability to call the PYLON API, and supports 'promises'.
+To make a PYLON analysis request.
 
-For example, using the DataSift client library (which calls the public API):
+1. Install the requirements listed above.
 
-	import datasift
+2. Create a DataSift client.
 
-	client = datasift.Client('API_USERNAME', 'API_KEY', async=True)
-	pylon = Analysis(client, 'linkedin', 'RECORDING_ID')
+		import datasift
 
-	task = pylon.freq_dist('Interaction types', 'li.type', filter='li.user.member.gender == "male"')
-	df = task.run()
+		client = datasift.Client(YOUR_USERNAME, YOUR_API_KEY, async=True)
 
-	print(df)
+3. To make a PYLON analysis request.
+
+		# Import handler for PYLON analysis requests
+		from pylon import Analysis
+
+		pylon = Analysis(client, 'linkedin', RECORDING_ID, filter='li.user.member.country == "United States"')
+
+		task = pylon.freq_dist('Interaction types', 'li.type', filter='li.user.member.gender == "male"')
+
+		result = task.run()
 
 ## Examples
 
 See example of using the library in the `/examples` folder of the repo.
 
 To run the examples you will first need to complete the details in the `/examples/config.yml` file.
-
-## Tests
-
-Install pip packages:
-
-	pip install nose
-	pip install coverage
-
-Run tests:
-
-	nosetests
-
-Run tests and report on code coverage:
-
-	nosetests --with-coverage --cover-erase --cover-package=pylon --cover-html
